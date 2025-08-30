@@ -1,5 +1,6 @@
 import 'package:cinebox/ui/core/themes/resource.dart';
 import 'package:cinebox/ui/core/themes/widgets/loader_messages.dart';
+import 'package:cinebox/ui/splash/splash_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,6 +13,14 @@ class SplashScreen extends ConsumerStatefulWidget {
 
 class _SplashScreenState extends ConsumerState<SplashScreen>
     with LoaderAndMessage<SplashScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(splashViewModelProvider).checkLoginAndRedirect();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +36,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
             constraints: const BoxConstraints.expand(),
             color: Colors.black.withAlpha(170),
           ),
-          Center(
-            child: Image.asset(R.ASSETS_IMAGES_LOGO_PNG),
-          ),
+          Center(child: Image.asset(R.ASSETS_IMAGES_LOGO_PNG)),
         ],
       ),
     );
